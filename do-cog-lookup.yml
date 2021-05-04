@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: The AWS CloudFormation template for looking up cognito secrets
+Parameters:
+  FunctionArn:
+    Type: String
+    Description: Set the Lambda Function ARN value to performs this lookup action
+  UserPoolId:
+    Description: Specify the Cognito user pool id
+    Type: String
+  ClientId:
+    Description: Set the client id that will be looked up
+    Type: String
+Resources:
+  CognitoSecretLookup:
+    Type: Custom::CogInfoLookup
+    Properties:
+      UserPoolId: !Ref UserPoolId
+      ClientId: !Ref ClientId
+      ServiceToken: !Ref FunctionArn
+Outputs:
+  CogSec:
+    Value: !GetAtt CognitoSecretLookup.key
